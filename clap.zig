@@ -74,7 +74,7 @@ pub fn parseParam(line: []const u8) !Param(Help) {
     @setEvalBranchQuota(std.math.maxInt(u32));
 
     var found_comma = false;
-    var it = mem.tokenize(line, " \t");
+    var it = mem.tokenize(u8,line, " \t");
     var param_str = it.next() orelse return error.NoParamFound;
 
     const short_name = if (!mem.startsWith(u8, param_str, "--") and
@@ -409,7 +409,7 @@ pub fn helpFull(
         try printParam(cs.writer(), Id, param, Error, context, valueText);
         try stream.writeByteNTimes(' ', max_spacing - @intCast(usize, cs.bytes_written));
         const help_text = try helpText(context, param);
-        var help_text_line_it = mem.split(help_text, "\n");
+        var help_text_line_it = mem.split(u8,help_text, "\n");
         var indent_line = false;
         while (help_text_line_it.next()) |line| : (indent_line = true) {
             if (indent_line) {
